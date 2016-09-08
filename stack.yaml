@@ -37,6 +37,7 @@ resolver: lts-6.16
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - '.'
+- https://hackage.haskell.org/package/dates-0.2.2.1/dates-0.2.2.1.tar.gz
 - location:
     git: https://github.com/exbb2/http-conduit-browser.git
     commit: 42d09cb91c7e72b858225222a24b5729278ae1b

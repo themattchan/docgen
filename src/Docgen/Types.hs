@@ -1,14 +1,16 @@
 module Docgen.Types where
+import Data.Text.Lazy
+import Data.Dates
 
 -- | Data to be scraped from a listing
 data Listing = Listing
-  { listingAddress         :: String
+  { listingAddress         :: Text
   , listingPricePerWeek    :: Int
-  , listingAvailableMoveIn :: Int
-  , listingSellingPoints   :: [String]
-  , listingDescription     :: String
+  , listingAvailableMoveIn :: DateTime
+  , listingSellingPoints   :: [Text]
+  , listingDescription     :: Text
   
-  , listingPhotos          :: String
-  , listingFloorPlan       :: String
-  , listingMap             :: String
+  -- , listingPhotos          :: String
+  -- , listingFloorPlan       :: String
+  -- , listingMap             :: String
   } deriving (Show, Eq)

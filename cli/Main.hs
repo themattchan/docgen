@@ -1,4 +1,4 @@
-module Web where
+module Main where
 
 import Docgen
 

@@ -1,4 +1,4 @@
-module CommandLine where
+module Main where
 
 import Docgen
 
