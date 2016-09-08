@@ -24,7 +24,7 @@ library
                      , containers
                      , lens >= 4.13
                      , text >= 1.2.2.0
-
+                     , mmorph >= 1.0.0
                      -- scrape
                      , conduit >= 1.2.7
                      , http-conduit >= 2.0

@@ -2,6 +2,10 @@
 
 module Docgen.Scraper where
 
+import Control.Applicative
+import Control.Monad
+import Control.Monad.Morph
+
 import Control.Monad.Trans.Resource (runResourceT)
 import Data.Conduit (($$+-))
 import Network.HTTP.Conduit
@@ -19,14 +23,30 @@ testUrl = "http://www.rightmove.co.uk/property-to-rent/property-56012182.html"
 userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
 
 
+-- step 1: grab the nodes we want
+   -- GUI phase 1: select tags from site source
+   -- GUI phase 2: select tags by clicking on rendered html page
 
-test :: IO ()
-test = do
+-- step 2: turn html nodes -> [Pandoc] nodes
+   -- avoid using readHtml to re-parse.
+
+-- step 3: layout pandoc nodes according to some stylesheet
+   -- GUI: drag 'n drop thing to compose the nodes
+
+-- step 4: generate pdf
+
+-- BATCH MODE: for each site to mine define a set of nodes to extract (see step 1)
+       -- map this over a set of pages for each site
+   -- GUI: list extractable sites, allow for selecting pages, then run in batch
+   -- and make a zip file with everything
+
+-- TODO make this streaming
+getPage :: IO Document
+getPage url = do
   manager <- newManager tlsManagerSettings
-  request <- parseRequest testUrl
+  request <- parseRequest url
 
-  out <- runResourceT $ browse manager $ do
+  runResourceT $ browse manager $ do
     setDefaultHeader "User-Agent" (Just userAgent)
-    makeRequestLbs request
-
-  TLIO.putStrLn $ TLE.decodeUtf8 $ responseBody out
+    body <- responseBody <$> makeRequest request
+    (hoist lift body) $$+- sinkDoc
