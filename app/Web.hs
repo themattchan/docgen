@@ -2,5 +2,5 @@ module Web where
 
 import Docgen
 
--- main :: IO ()
--- main = someFunc
+main :: IO ()
+main = return ()
