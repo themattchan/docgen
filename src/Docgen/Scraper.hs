@@ -12,6 +12,7 @@ import Network.HTTP.Conduit
 import Network.HTTP.Conduit.Browser
 import Text.HTML.DOM (sinkDoc)
 import Text.XML (Document)
+import Text.XML.Cursor
 import qualified Data.Text.Lazy.IO as TLIO
 import qualified Data.Text.Lazy.Encoding as TLE
 
@@ -40,13 +41,15 @@ userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko)
    -- GUI: list extractable sites, allow for selecting pages, then run in batch
    -- and make a zip file with everything
 
--- TODO make this streaming
-getPage :: IO Document
-getPage url = do
-  manager <- newManager tlsManagerSettings
-  request <- parseRequest url
-
+-- TODO: use conduit all the way through?
+getPage :: String -> Manager -> IO Document
+getPage url manager = do
   runResourceT $ browse manager $ do
     setDefaultHeader "User-Agent" (Just userAgent)
+    request <- lift $ parseRequest url
     body <- responseBody <$> makeRequest request
     (hoist lift body) $$+- sinkDoc
+
+runTest = newManager tlsManagerSettings >>= getPage testUrl
+
+

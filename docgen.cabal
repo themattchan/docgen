@@ -23,8 +23,10 @@ library
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , lens >= 4.13
+                     , bytestring >= 0.10.6
                      , text >= 1.2.2.0
                      , mmorph >= 1.0.0
+
                      -- scrape
                      , conduit >= 1.2.7
                      , http-conduit >= 2.0
@@ -33,7 +35,7 @@ library
                      , xml-conduit >= 1.3.5
                      , html-conduit
                      , xml-lens
-
+                     , tagsoup >= 0.13.10
                      , JuicyPixels >= 3.1
                      , dates >= 0.2.2.1
                      -- make document
